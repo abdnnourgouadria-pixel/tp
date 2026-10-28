@@ -1,0 +1,40 @@
+TP 2 – Answers to questions (a) to (i)
+
+(a) Working directory, staging area, repository:
+- Working directory: files we edit.
+- Staging area: changes selected for the next commit.
+- Repository: saved commit history.
+- git add moves changes to staging; git commit saves them in the repository.
+
+(b) git status:
+- After editing Book.java: the file appears as modified and not staged.
+- After git add Book.java: it appears under changes to be committed.
+- After git commit: no pending change remains if the file was not edited again.
+
+(c) Why must target/ not be committed?
+It contains generated Maven build files that can be created again.
+
+(d) Good commit message and small commits:
+A good message is short and describes one change, for example "Add library tests".
+Small commits are easier to understand, test, and undo.
+
+(e) Branch and HEAD; why did search disappear?
+A branch is a separate line of development. HEAD points to the current checked-out branch or commit.
+The search disappeared because it was committed on feature/search, not on main.
+
+(f) Fast-forward and merge commit:
+Fast-forward is possible when the current branch has no diverging commits.
+If histories have diverged, Git usually creates a merge commit.
+
+(g) Why did the conflict occur?
+Both branches changed the same line in README.md. Git cannot know which wording the developer prefers.
+
+(h) fetch, pull, clone:
+- git fetch downloads remote changes without integrating them into the current branch.
+- git pull fetches and integrates remote changes.
+- git clone creates a new local copy of a remote repository.
+- git pull updates an existing local repository.
+
+(i) Unified Process and XP:
+Git supports Configuration and Change Management in the Unified Process.
+In XP, it helps Continuous Integration and frequent changes to the code.
