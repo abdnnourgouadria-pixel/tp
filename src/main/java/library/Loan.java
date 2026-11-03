@@ -2,7 +2,7 @@ package library;
 
 import java.time.LocalDate;
 
-// Represents a loan of one copy to one member.
+
 public class Loan {
     private Member member;
     private Copy copy;
@@ -14,8 +14,8 @@ public class Loan {
         this.member = member;
         this.copy = copy;
         this.startDate = startDate;
-        this.dueDate = startDate.plusDays(14); // Return after 14 days.
-        this.returnDate = null; // null means not returned yet.
+        this.dueDate = startDate.plusDays(14);
+        this.returnDate = null;
     }
 
     public Member getMember() {

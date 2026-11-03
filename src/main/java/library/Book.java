@@ -1,6 +1,6 @@
 package library;
 
-// Represents a book in the library.
+
 public class Book {
     private String isbn;
     private String title;
@@ -24,7 +24,7 @@ public class Book {
         return year;
     }
 
-    // Two books are equal when their ISBN is the same.
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

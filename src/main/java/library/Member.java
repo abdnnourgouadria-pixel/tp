@@ -1,6 +1,6 @@
 package library;
 
-// Represents a library member.
+
 public class Member {
     private String number;
     private String name;

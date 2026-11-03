@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Main class: stores books, copies, members, and loans.
+
 public class Library {
     private Map<String, Book> books = new HashMap<>();
     private Map<String, Copy> copies = new HashMap<>();
@@ -89,7 +89,7 @@ public class Library {
         throw new IllegalStateException("Copy is not on loan");
     }
 
-    // Finds books whose titles contain the keyword (case-insensitive).
+
     public List<Book> searchByTitle(String keyword) {
         List<Book> result = new ArrayList<>();
 
