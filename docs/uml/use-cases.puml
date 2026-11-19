@@ -1,5 +1,5 @@
 @startuml
-' !pragma layout smetana   <- enlevez le ' si Graphviz n'est pas installe
+
 left to right direction
 
 actor User
@@ -7,7 +7,7 @@ actor Member
 actor Librarian
 actor "Mail server" as Mail <<system>>
 
-' Generalisation : le triangle est cote User (acteur general)
+
 User <|-- Member
 User <|-- Librarian
 
@@ -25,7 +25,7 @@ late return"
   usecase "Suspend the member"   as Suspend
 }
 
-' Associations
+
 User      -- Search
 Member    -- Reserve
 Member    -- Renew
@@ -34,7 +34,7 @@ Librarian -- Return
 Librarian -- Manage
 Reserve   -- Mail
 
-' Include / Extend
+
 Renew   ..> Check   : <<include>>
 Lend    ..> Check   : <<include>>
 Suspend ..> Return  : <<extend>>
