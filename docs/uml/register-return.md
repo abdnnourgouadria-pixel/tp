@@ -19,7 +19,7 @@
 4. The system closes the loan and records the return date.
 5. The system checks the reservations: none.
 6. The system sets the copy "available".
-7. The system confirms the return. End of use case.
+7. The system prints the receipt. End of use case.
 
 ## Alternative scenarios / exceptions
 - **2a. Unknown copy / barcode unreadable**: the system shows an error; the librarian types the code by hand or stops the use case.

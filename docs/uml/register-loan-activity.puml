@@ -14,10 +14,10 @@ repeat
   |Librarian|
   :Scan a copy;
   |System|
-  if (copy reserved for another member?) then (yes)
-    :Refuse this copy (5a);
-  else (no)
+  if (copy available and not reserved?) then (yes)
     :Register the loan;
+  else (no)
+    :Refuse this copy (5a);
   endif
   |Librarian|
 repeat while (another copy?) is (yes)

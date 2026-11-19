@@ -4,6 +4,11 @@ start
 :Scan the returned copy;
 |System|
 :Identify the loan;
+if (copy on loan?) then (yes)
+else (no)
+  :Display error "copy not on loan";
+  stop
+endif
 :Close the loan;
 if (returned late?) then (yes)
   :Suspend the member\n(extension point: late return);
@@ -15,7 +20,6 @@ if (copy reserved?) then (yes)
 else (no)
   :Put the copy back in available stock;
 endif
-|Librarian|
-:Place the copy on the right shelf / reserved shelf;
+:Print the receipt;
 stop
 @enduml
