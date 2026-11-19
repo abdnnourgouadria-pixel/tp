@@ -1,13 +1,11 @@
 package library;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-// Tests the main rules of the library.
 class LibraryTest {
     private static final String ISBN = "978-0-00-000001-1";
     private static final LocalDate DAY = LocalDate.of(2026, 10, 1);
@@ -22,70 +20,61 @@ class LibraryTest {
     }
 
     @Test
-    void lendingMakesCopyUnavailable() {
+    void lendingMakesTheCopyUnavailable() {
         Loan loan = library.lend("M-01", "C-001", DAY);
-
         assertFalse(library.findCopy("C-001").isAvailable());
         assertEquals(DAY.plusDays(14), loan.getDueDate());
     }
 
     @Test
-    void returningMakesCopyAvailable() {
+    void returnMakesTheCopyAvailableAgain() {
         library.lend("M-01", "C-001", DAY);
-        library.returnCopy("C-001", DAY.plusDays(5));
-
+        Loan loan = library.returnCopy("C-001", DAY.plusDays(3));
         assertTrue(library.findCopy("C-001").isAvailable());
+        assertFalse(loan.isOpen());
     }
 
     @Test
-    void cannotLendUnavailableCopy() {
+    void unavailableCopyCannotBeLent() {
+        library.registerMember(new Member("M-02", "Second member"));
         library.lend("M-01", "C-001", DAY);
-
-        assertThrows(IllegalStateException.class,
-                () -> library.lend("M-01", "C-001", DAY));
+        assertThrows(IllegalStateException.class, () -> library.lend("M-02", "C-001", DAY));
     }
 
     @Test
-    void unknownMemberCausesException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> library.lend("UNKNOWN", "C-001", DAY));
+    void memberCannotHaveMoreThanFiveLoans() {
+        for (int i = 2; i <= 6; i++) library.addCopy(ISBN, "C-00" + i);
+        for (int i = 1; i <= 5; i++) library.lend("M-01", "C-00" + i, DAY);
+        assertThrows(IllegalStateException.class, () -> library.lend("M-01", "C-006", DAY));
     }
 
     @Test
-    void loanIsLateAfterDueDate() {
+    void unknownNumbersCauseIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> library.lend("X-99", "C-001", DAY));
+        assertThrows(IllegalArgumentException.class, () -> library.lend("M-01", "Z-999", DAY));
+        assertThrows(IllegalArgumentException.class, () -> library.returnCopy("Z-999", DAY));
+    }
+
+    @Test
+    void returningACopyNotOnLoanIsRefused() {
+        assertThrows(IllegalStateException.class, () -> library.returnCopy("C-001", DAY));
+    }
+
+    @Test
+    void loanIsLateOnlyAfterDueDate() {
         Loan loan = library.lend("M-01", "C-001", DAY);
-
         assertFalse(loan.isLate(DAY.plusDays(14)));
         assertTrue(loan.isLate(DAY.plusDays(15)));
     }
 
     @Test
-    void memberCannotHaveMoreThanFiveLoans() {
-        for (int i = 1; i <= 6; i++) {
-            String isbn = "ISBN-" + i;
-            library.addBook(new Book(isbn, "Book " + i, 2020));
-            library.addCopy(isbn, "C-" + i);
-        }
-
-        for (int i = 1; i <= 5; i++) {
-            library.lend("M-01", "C-" + i, DAY);
-        }
-
-        assertThrows(IllegalStateException.class,
-                () -> library.lend("M-01", "C-6", DAY));
-    }
-
-    @Test
-    void searchIgnoresUpperAndLowerCase() {
-        assertEquals(1, library.searchByTitle("software").size());
-        assertEquals(1, library.searchByTitle("SOFTWARE").size());
-    }
-
-    @Test
     void booksWithSameIsbnAreEqual() {
-        Book first = new Book(ISBN, "First title", 2000);
-        Book second = new Book(ISBN, "Another title", 2020);
+        assertEquals(new Book(ISBN, "A", 2000), new Book(ISBN, "B", 2001));
+    }
 
-        assertEquals(first, second);
+    @Test
+    void searchByTitleIgnoresCase() {
+        assertEquals(1, library.searchByTitle("SOFTWARE").size());
+        assertTrue(library.searchByTitle("xyz").isEmpty());
     }
 }

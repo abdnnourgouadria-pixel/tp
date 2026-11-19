@@ -1,30 +1,25 @@
 package library;
 
-
 public class Copy {
-    private String inventoryNumber;
-    private Book book;
-    private boolean available;
+    private final String inventoryNumber;
+    private final Book book;
+    private boolean available = true;
 
-    public Copy(String inventoryNumber, Book book) {
+    Copy(String inventoryNumber, Book book) {
+        if (inventoryNumber == null || inventoryNumber.isBlank())
+            throw new IllegalArgumentException("Inventory number is required");
+        if (book == null) throw new IllegalArgumentException("Book is required");
         this.inventoryNumber = inventoryNumber;
         this.book = book;
-        this.available = true;
     }
 
-    public String getInventoryNumber() {
-        return inventoryNumber;
-    }
+    String getInventoryNumber() { return inventoryNumber; }
+    Book getBook()              { return book; }
+    boolean isAvailable()       { return available; }
+    void setAvailable(boolean available) { this.available = available; }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
+    @Override
+    public String toString() {
+        return inventoryNumber + " - " + book.getTitle() + (available ? " [available]" : " [on loan]");
     }
 }

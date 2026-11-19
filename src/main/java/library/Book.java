@@ -1,45 +1,34 @@
 package library;
 
+import java.util.Objects;
 
 public class Book {
-    private String isbn;
-    private String title;
-    private int year;
+    private final String isbn;
+    private final String title;
+    private final int year;
 
-    public Book(String isbn, String title, int year) {
+    Book(String isbn, String title, int year) {
+        if (isbn == null || isbn.isBlank()) throw new IllegalArgumentException("ISBN is required");
+        if (title == null || title.isBlank()) throw new IllegalArgumentException("Title is required");
         this.isbn = isbn;
         this.title = title;
         this.year = year;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
+    String getIsbn()  { return isbn; }
+    String getTitle() { return title; }
+    int getYear()     { return year; }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Book)) {
-            return false;
-        }
-
-        Book other = (Book) object;
-        return isbn.equals(other.isbn);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        return isbn.equals(((Book) o).isbn);
     }
 
     @Override
-    public int hashCode() {
-        return isbn.hashCode();
-    }
+    public int hashCode() { return Objects.hash(isbn); }
+
+    @Override
+    public String toString() { return title + " (" + year + ", ISBN " + isbn + ")"; }
 }

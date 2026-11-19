@@ -1,0 +1,21 @@
+@startuml
+|Librarian|
+start
+:Scan the returned copy;
+|System|
+:Identify the loan;
+:Close the loan;
+if (returned late?) then (yes)
+  :Suspend the member\n(extension point: late return);
+else (no)
+endif
+if (copy reserved?) then (yes)
+  :Keep the copy aside;
+  :Notify the member who reserved it;
+else (no)
+  :Put the copy back in available stock;
+endif
+|Librarian|
+:Place the copy on the right shelf / reserved shelf;
+stop
+@enduml

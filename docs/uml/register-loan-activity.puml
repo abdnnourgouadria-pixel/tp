@@ -1,0 +1,28 @@
+@startuml
+|Librarian|
+start
+:Identify the member;
+|System|
+:Display the member record;
+:Check borrowing rights;
+if (rights OK?) then (yes)
+else (no)
+  :Display "rights refused" (3a);
+  stop
+endif
+repeat
+  |Librarian|
+  :Scan a copy;
+  |System|
+  if (copy reserved for another member?) then (yes)
+    :Refuse this copy (5a);
+  else (no)
+    :Register the loan;
+  endif
+  |Librarian|
+repeat while (another copy?) is (yes)
+->no;
+|System|
+:Print the loan receipt;
+stop
+@enduml

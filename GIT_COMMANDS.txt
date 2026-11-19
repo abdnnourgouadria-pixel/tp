@@ -1,0 +1,42 @@
+# Part A
+git --version
+git config --global user.name "Your Name"
+git config --global user.email "you@example.org"
+git config --global init.defaultBranch main
+
+# Part B (inside the project folder)
+git init
+git status
+git add .
+git commit -m "Create the Maven project"
+
+# Part C (one commit per step; check with git diff / git diff --staged)
+git add src/main/java/library/Book.java src/main/java/library/Copy.java
+git commit -m "Add Book and Copy"
+git add src/main/java/library/Member.java src/main/java/library/Loan.java
+git commit -m "Add Member and Loan"
+git add src/main/java/library/Library.java src/main/java/library/Main.java
+git commit -m "Add Library with lend and returnCopy"
+git add src/test
+git commit -m "Add LibraryTest"
+git log
+git log --oneline
+
+# Part D
+git switch -c feature/search
+#   (edit README.md first line -> "# Library management – TP 2 (with search)")
+git commit -am "Add searchByTitle"
+git switch main
+#   (edit README.md first line -> "# Library management application – TP 2")
+git commit -am "Rename the application in the README"
+git merge feature/search            # conflict in README.md -> fix, remove markers
+git add README.md
+git commit
+git log --oneline --graph --all
+git branch -d feature/search
+
+# Part E
+git remote add origin <URL>
+git push -u origin main
+git tag -a v1.0 -m "First version"
+git push origin v1.0

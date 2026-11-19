@@ -1,39 +1,37 @@
-TP 2 
+TP 2 - Answers
 
-a Working directory, staging area, repository
-- Working directory: files we edit.
-                Staging area: changes selected for the next commit.
-Repository: saved commit history.   git add moves changes to staging; git commit saves them in the repository.
+(a) Working directory = the files you edit. Staging area (index) = changes selected for the next commit.
+    Repository = history of commits. git add: working dir -> staging. git commit: staging -> repository.
+    (git restore <f> discards a working-dir change; git restore --staged <f> unstages.)
 
-b git status:
-After editing Book.java: the file appears as modified and not staged.
-- After git add Book.java: it appears under changes to be committed.
-- After git commit: no pending change remains if the file was not edited again.
+(b) After modifying Book.java: "Changes not staged for commit" (modified: Book.java).
+    After git add: "Changes to be committed" (modified: Book.java).
+    After git commit: "nothing to commit, working tree clean".
 
-c Why must target/ not be committed?
-It contains generated Maven build files that can be created again.
+(c) target/ holds generated files (classes, jars, test reports). They can be rebuilt from the sources,
+    are machine-specific, bloat the repository and create useless conflicts. They go in .gitignore.
 
-d Good commit message and small commits:
-A good message is short and describes one change, for example "Add library tests"
-Small commits are easier to understand, test, and undo
+(d) A good message is short, in the imperative mood, and says what the commit does ("Add Loan class").
+    Small commits are easier to review, test, understand, revert (git revert) and merge, and make
+    git bisect / blame useful. Each commit should be one logical change.
 
-e Branch and HEAD; why did search disappear?
-       A branch is a separate line of development. HEAD points to the current checked-out branch or commit
-The search disappeared because it was committed on feature/search, not on main
+(e) A branch is a movable pointer to a commit (a line of development). HEAD is the pointer to the current
+    branch/commit, i.e. what is checked out. The search disappeared on main because it was committed only on
+    feature/search: main still points to an older commit that does not contain it; switching branch rewrites
+    the working directory to the commit of main.
 
-f Fast-forward and merge commit:
-Fast-forward is possible when the current branch has no diverging commits
-If histories have diverged, Git usually creates a merge commit
+(f) Fast-forward: when the current branch has no new commit of its own, so its pointer is simply moved
+    forward to the other branch's tip. A merge commit (two parents) is created when both branches have
+    diverged, i.e. each has commits the other lacks.
 
-g) Why did the conflict occur?
-Both branches changed the same line in README.md. Git cannot know which wording the developer prefers.
+(g) Both branches changed the same line (first line of README.md) in different ways from the same ancestor.
+    Git cannot know which version is right (or how to combine them), so a human must choose and edit.
 
-h fetch, pull, clone:
-  git fetch downloads remote changes without integrating them into the current branch.
-- git pull fetches and integrates remote changes.
- git clone creates a new local copy of a remote repository.
-- git pull updates an existing local repository.
+(h) git fetch downloads the new commits from the remote without changing your working branch;
+    git pull = git fetch + merge (or rebase) into the current branch.
+    git clone copies a whole remote repository for the first time (creates the folder, .git, origin);
+    git pull updates an existing local clone.
 
-i Unified Process and XP
-Git supports Configuration and Change Management in the Unified Process.
-In XP, it helps Continuous Integration and frequent changes to the code.
+(i) Configuration and change management (Unified Process). XP practices requiring it: continuous
+    integration, collective code ownership, small releases, and frequent integration of small changes
+    (also supports refactoring by making changes safe to undo and share).

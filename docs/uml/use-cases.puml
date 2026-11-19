@@ -1,0 +1,46 @@
+@startuml
+' !pragma layout smetana   <- enlevez le ' si Graphviz n'est pas installe
+left to right direction
+
+actor User
+actor Member
+actor Librarian
+actor "Mail server" as Mail <<system>>
+
+' Generalisation : le triangle est cote User (acteur general)
+User <|-- Member
+User <|-- Librarian
+
+rectangle "Library system" {
+  usecase "Search the catalog"   as Search
+  usecase "Reserve a book"       as Reserve
+  usecase "Renew a loan"         as Renew
+  usecase "Register a loan"      as Lend
+  usecase Return as "Register a return
+--
+extension points
+late return"
+  usecase "Manage the catalog"   as Manage
+  usecase "Check borrowing rights" as Check
+  usecase "Suspend the member"   as Suspend
+}
+
+' Associations
+User      -- Search
+Member    -- Reserve
+Member    -- Renew
+Librarian -- Lend
+Librarian -- Return
+Librarian -- Manage
+Reserve   -- Mail
+
+' Include / Extend
+Renew   ..> Check   : <<include>>
+Lend    ..> Check   : <<include>>
+Suspend ..> Return  : <<extend>>
+
+note right of Suspend
+  condition: {returned late}
+  extension point: late return
+end note
+@enduml

@@ -1,20 +1,19 @@
 package library;
 
-
 public class Member {
-    private String number;
-    private String name;
+    private final String number;
+    private final String name;
 
-    public Member(String number, String name) {
+    Member(String number, String name) {
+        if (number == null || number.isBlank()) throw new IllegalArgumentException("Member number is required");
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("Member name is required");
         this.number = number;
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
-    }
+    String getNumber() { return number; }
+    String getName()   { return name; }
 
-    public String getName() {
-        return name;
-    }
+    @Override
+    public String toString() { return number + " - " + name; }
 }
